@@ -1,20 +1,29 @@
-// import { User } from "./User";
-// import { Company } from "./Company";
+import * as dotenv from "dotenv";
+import { Loader } from '@googlemaps/js-api-loader';
 
-// const user = new User();
-// console.log(user);
+dotenv.config();
+const mapDiv = document.querySelector('map')!;
+const loader = new Loader({
+  apiKey: "GOOGLE_MAPS_API_KEY",
+  version: "weekly",
+  libraries: ["places"]
+});
 
-// const company = new Company();
-// console.log(company);
-const mapDiv = document.getElementById('map')!;
-let map: google.maps.Map;
-new google.maps.Map(mapDiv as HTMLElement, {
-  zoom: 1,
+const mapOptions = {
   center: {
     lat: 0,
     lng: 0
-  }
-});
+  },
+  zoom: 4
+};
 
+loader
+  .load()
+  .then((google) => {
+    new google.maps.Map(mapDiv, mapOptions);
+  })
+  .catch(e => {
+    console.log(e);
+  });
 
 
